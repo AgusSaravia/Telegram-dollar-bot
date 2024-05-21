@@ -1,0 +1,19 @@
+{
+  "name": "telegram-dollar-bot",
+  "version": "1.0.0",
+  "description": "A bot that retrieves the dollar value from an Uruguayan exchange.",
+  "main": "bot.js",
+  "scripts": {
+    "dev": "nodemon bot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "date": "^2.0.5",
+    "date-fns": "^3.6.0",
+    "dotenv": "^16.4.5",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
