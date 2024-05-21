@@ -1,28 +1,25 @@
-const { TOKEN, CHAT_ID } = require("./config");
-
-const axios = require("axios");
+require("dotenv").config()
 const telegramBot = require("node-telegram-bot-api");
 
 const { format } = require("date-fns");
 
-const bot = new telegramBot(TOKEN, { polling: true });
+const bot = new telegramBot(process.env.x, { polling: true });
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const messageText = msg.text;
   console.log(messageText);
-  console.log(chatId);
-  bot.sendMessage(chatId, "Hello! I'm your telegram bot.");
+  console.log("hola", chatId);
+  bot.sendMessage(chatId, "Hola soy el bot Uruguayo de la cotizacion del dolar.Usa /cotizacion para tener la informacion del dolar actualizada");
 });
 
-bot.onText(/\/init/, async (msg) => {
+bot.onText(/\/cotizacion/, async (msg) => {
   const chatId = msg.chat.id;
-  console.log(chatId);
   const message = msg.text;
 });
+
 async function getData() {
   const formattedDate = format(new Date(), "ddMMyyyy");
-  console.log(formattedDate);
 
   const res = await fetch(
     `https://www.indumex.com/Umbraco/api/Pizarra/Cotizaciones?fecha=${formattedDate}`,
@@ -51,14 +48,28 @@ async function getData() {
 
   return res.json();
 }
+
+
 async function sendCotizaciones() {
   const data = await getData();
-  const sell = data[0].Venta;
 
-  bot.sendMessage(CHAT_ID, sell);
-  console.log(sell);
+  if (data && data.length > 0) {
+    const sell = data[0].Venta;
+    try {
+      await bot.sendMessage(
+        process.env.cid,
+        `El precio del dolar en Uruguay al día de hoy es $${sell}0 pesos`
+      );
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  } else {
+    console.error("No data received");
+  }
 }
 
-sendCotizaciones();
+
+
 
 setInterval(sendCotizaciones, 1000 * 60 * 10);
+sendCotizaciones();
