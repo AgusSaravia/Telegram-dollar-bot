@@ -4,7 +4,7 @@
   "description": "A bot that retrieves the dollar value from an Uruguayan exchange.",
   "main": "bot.js",
   "scripts": {
-    "dev": "nodemon bot.js"
+    "dev": "nodemon bot.mjs"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
     "date": "^2.0.5",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
+    "node-cache": "^5.1.2",
     "node-telegram-bot-api": "^0.66.0"
   }
 }
